@@ -1,15 +1,34 @@
 fun main() {
     fun part1(input: List<String>): Int {
-        return input.size
+        var increases = 0
+        input.reduce { last, current ->
+            val curr = current.toInt()
+            val prev = last.toInt()
+            if (curr > prev) {
+                increases = increases + 1
+            }
+            current
+        }
+        return increases
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        var increases = 0
+        val intInput = input.map { it.toInt() }
+        intInput.windowed(3).reduce { lastWindow, currentWindow ->
+            val lastWindowSum = lastWindow.sum()
+            val currentWindowSum = currentWindow.sum()
+            if (currentWindowSum > lastWindowSum) {
+                increases = increases + 1
+            }
+            currentWindow
+        }
+        return increases
     }
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    check(part2(testInput) == 5)
 
     val input = readInput("Day01")
     println(part1(input))
