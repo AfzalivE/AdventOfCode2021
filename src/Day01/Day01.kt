@@ -1,4 +1,4 @@
-fun main() {
+fun main(vararg args: String) {
     fun part1(input: List<String>): Int {
         var increases = 0
         input.reduce { last, current ->
@@ -26,11 +26,13 @@ fun main() {
         return increases
     }
 
+    val day = args[0]
+    println(day)
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
+    val testInput = readInput("$day/Day01_test")
     check(part2(testInput) == 5)
 
-    val input = readInput("Day01")
+    val input = readInput("$day/Day01")
     println(part1(input))
     println(part2(input))
 }
