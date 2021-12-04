@@ -29,10 +29,10 @@ fun main(vararg args: String) {
     val day = args[0]
     println(day)
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("$day/Day01_test")
+    val testInput = readInput("$day/${day}_test")
     check(part2(testInput) == 5)
 
-    val input = readInput("$day/Day01")
+    val input = readInput("$day/${day}")
     println(part1(input))
     println(part2(input))
 }

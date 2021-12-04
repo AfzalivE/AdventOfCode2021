@@ -29,6 +29,6 @@ val day: String by project
 
 val runDay by tasks.registering(JavaExec::class) {
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("Day$day" + "Kt")
+    mainClass.set("Day${day}Kt")
     setArgsString("Day$day")
 }
