@@ -11,3 +11,15 @@ fun readInput(name: String) = File("src", "$name.txt").readLines()
  * Converts string to md5 hash.
  */
 fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray())).toString(16)
+
+private var DEBUG = false
+
+fun setDebug(debug: Boolean) {
+    DEBUG = debug
+}
+
+fun debug(message: Any?) {
+    if (DEBUG) {
+        println(message)
+    }
+}
