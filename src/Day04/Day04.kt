@@ -1,3 +1,5 @@
+private const val DEBUG = false
+
 class Board {
     data class BoardItem(
         val value: Int,
@@ -19,7 +21,7 @@ class Board {
             }
             if (rowIndex != -1) {
                 array[index][rowIndex].matched = true
-                // println("Matched: $num at $index, $rowIndex")
+                debug("Matched: $num at $index, $rowIndex")
             }
         }
     }
@@ -63,7 +65,7 @@ fun runDraw(boards: List<Board>, drawn: List<Int>): Pair<Int, Int> {
         boards.forEachIndexed { index, board -> 
             board.matchNumber(num.toInt())
             if (board.checkWinner()) {
-                println("Board $index has won!")
+                debug("Board $index has won!")
                 return index to num
             }
         }
@@ -81,11 +83,9 @@ fun runDraw2(boards: List<Board>, drawn: List<Int>): Pair<Int, Int> {
             boards.forEachIndexed { index, board -> 
                 board.matchNumber(num.toInt())
                 if (board.checkWinner()) {
-                    // if (!winners.contains(index)) {
-                        println("Board $index has won at $num!")
-                        winners.add(index)
-                        currentNum = num
-                    // }
+                    debug("Board $index has won at $num!")
+                    winners.add(index)
+                    currentNum = num
                 }
             }
         }
@@ -120,13 +120,15 @@ fun parseBoards(input: List<String>) : List<Board> {
 }
 
 fun main(vararg args: String) {
+    setDebug(DEBUG)
+
     fun part1(input: List<String>): Int {
         val drawn = input[0]
         val boards = parseBoards(input.drop(2))
 
         val (winner, lastDraw) = runDraw(boards, drawn.split(",").map { it.toInt()})
         val score = boards[winner].score(lastDraw)
-        println(score)
+        debug(score)
         return score
     }
 
@@ -136,7 +138,7 @@ fun main(vararg args: String) {
 
         val (winner, lastDraw) = runDraw2(boards, drawn.split(",").map { it.toInt()})
         val score = boards[winner].score(lastDraw)
-        println(score)
+        debug(score)
         return score
     }
 
