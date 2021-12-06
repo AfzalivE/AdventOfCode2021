@@ -8,7 +8,7 @@ class Board {
     val array = Array(5) { listOf<BoardItem>() }
 
     fun addRow(rowId: Int, row: String): Board {
-        val rowNums = row.split(" ").filter { !it.isEmpty() }.map { it.toInt() }
+        val rowNums = row.split(" ").filter { it.isNotEmpty() }.map { it.toInt() }
         array[rowId] = rowNums.map { BoardItem(it) }
 
         return this
@@ -28,13 +28,13 @@ class Board {
 
     fun checkWinner() : Boolean {
         array.forEach { row ->
-            if (row.filter { it.matched == true }.size == 5) return true
+            if (row.filter { it.matched }.size == 5) return true
         }
 
         for (i in 0 until 5) {
             var allTrue = true
             for (j in 0 until 5) {
-                if (!allTrue || array[j][i].matched != true) {
+                if (!allTrue || !array[j][i].matched) {
                     allTrue = false    
                 }
             }
@@ -47,9 +47,9 @@ class Board {
     }
 
     fun score(num: Int) : Int {
-        return num * array.map { row ->
-            row.filter { it.matched == false }.sumOf { it.value }
-        }.sum()
+        return num * array.sumOf { row ->
+            row.filter { !it.matched }.sumOf { it.value }
+        }
     }
 
     override fun toString(): String {
@@ -60,13 +60,12 @@ class Board {
 }
 
 fun runDraw(boards: List<Board>, drawn: List<Int>): Pair<Int, Int> {
-    for (i in 0 until drawn.size) {
-        val num = drawn[i]
-        boards.forEachIndexed { index, board -> 
-            board.matchNumber(num.toInt())
+    for (element in drawn) {
+        boards.forEachIndexed { index, board ->
+            board.matchNumber(element)
             if (board.checkWinner()) {
                 debug("Board $index has won!")
-                return index to num
+                return index to element
             }
         }
     }
@@ -77,15 +76,14 @@ fun runDraw(boards: List<Board>, drawn: List<Int>): Pair<Int, Int> {
 fun runDraw2(boards: List<Board>, drawn: List<Int>): Pair<Int, Int> {
     val winners = mutableSetOf<Int>()
     var currentNum = -1
-    for (i in 0 until drawn.size) {
+    for (element in drawn) {
         if (winners.size < boards.size) {
-            val num = drawn[i]
-            boards.forEachIndexed { index, board -> 
-                board.matchNumber(num.toInt())
+            boards.forEachIndexed { index, board ->
+                board.matchNumber(element)
                 if (board.checkWinner()) {
-                    debug("Board $index has won at $num!")
+                    debug("Board $index has won at $element!")
                     winners.add(index)
-                    currentNum = num
+                    currentNum = element
                 }
             }
         }

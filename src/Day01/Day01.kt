@@ -5,7 +5,7 @@ fun main(vararg args: String) {
             val curr = current.toInt()
             val prev = last.toInt()
             if (curr > prev) {
-                increases = increases + 1
+                increases += 1
             }
             current
         }
@@ -19,7 +19,7 @@ fun main(vararg args: String) {
             val lastWindowSum = lastWindow.sum()
             val currentWindowSum = currentWindow.sum()
             if (currentWindowSum > lastWindowSum) {
-                increases = increases + 1
+                increases += 1
             }
             currentWindow
         }

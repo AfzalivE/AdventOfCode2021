@@ -12,7 +12,7 @@ data class Coordinate(
         ): List<Coordinate> {
             return input.map { row -> 
                 val (coord1, coord2) = row.split("->").map { coordinates ->
-                    val coord = Coordinate.fromString(coordinates)
+                    val coord = fromString(coordinates)
                     onParsedCoordinate(coord)
                     coord
                 }
@@ -22,7 +22,8 @@ data class Coordinate(
                 coordinatesBetween
             }.flatten()
         }
-        fun fromString(input: String): Coordinate {
+
+        private fun fromString(input: String): Coordinate {
             val (x, y) = input.trim().split(",").map { it.toInt() }
             return Coordinate(x, y)
         }
@@ -31,23 +32,15 @@ data class Coordinate(
     private fun coordinatesBetween(other: Coordinate, diagonals: Boolean = false): List<Coordinate> {
         return if (x == other.x) {
             if (y < other.y) {
-                (y .. other.y).map { it ->
-                    Coordinate(x, it)
-                }
+                (y .. other.y).map { Coordinate(x, it) }
             } else {
-                (other.y .. y).map { it ->
-                    Coordinate(x, it)
-                }
+                (other.y .. y).map { Coordinate(x, it) }
             }
         } else if (y == other.y) {
             if (x < other.x) {
-                (x .. other.x).map { it ->
-                    Coordinate(it, y)
-                }
+                (x .. other.x).map { Coordinate(it, y) }
             } else {
-                (other.x .. x).map { it ->
-                    Coordinate(it, y)
-                }
+                (other.x .. x).map { Coordinate(it, y) }
             }
         } else if (diagonals) {
             val xs = (x .. other.x) + (x downTo other.x)
@@ -74,13 +67,13 @@ class Diagram(val size: Int) {
     }
 
     fun overlappingPointCount(): Int {
-        return array.map { row ->
+        return array.sumOf { row ->
             row.filter { it >= 2 }.size
-        }.sum()
+        }
     }
     
     override fun toString(): String {
-        return array.map { row ->
+        return array.joinToString(separator = "\n") { row ->
             row.map { col ->
                 if (col == 0) {
                     "."
@@ -88,7 +81,7 @@ class Diagram(val size: Int) {
                     col
                 }
             }.joinToString(separator = "")
-        }.joinToString(separator = "\n")
+        }
     }
 }
 
