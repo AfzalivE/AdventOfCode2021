@@ -5,7 +5,11 @@ data class Coordinate(
     val y: Int
 ) {
     companion object {
-        fun fromInputList(input: List<String>, diagonals: Boolean = false, onParsedCoordinate: (Coordinate) -> Unit): List<Coordinate> {
+        fun fromInputList(
+            input: List<String>,
+            diagonals: Boolean = false,
+            onParsedCoordinate: (Coordinate) -> Unit,
+        ): List<Coordinate> {
             return input.map { row -> 
                 val (coord1, coord2) = row.split("->").map { coordinates ->
                     val coord = Coordinate.fromString(coordinates)
@@ -24,7 +28,7 @@ data class Coordinate(
         }
     }
 
-    fun coordinatesBetween(other: Coordinate, diagonals: Boolean = false): List<Coordinate> {
+    private fun coordinatesBetween(other: Coordinate, diagonals: Boolean = false): List<Coordinate> {
         return if (x == other.x) {
             if (y < other.y) {
                 (y .. other.y).map { it ->

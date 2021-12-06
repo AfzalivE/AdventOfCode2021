@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm")
     application
 }
 
@@ -19,13 +19,9 @@ tasks {
             java.srcDirs("src")
         }
     }
-
-    wrapper {
-        gradleVersion = "7.3"
-    }
 }
 
-val day: String by project
+val day: String? by project
 
 val runDay by tasks.registering(JavaExec::class) {
     classpath = sourceSets["main"].runtimeClasspath
